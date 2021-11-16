@@ -1,5 +1,5 @@
-const Category = require('../../categories/model/Category');
-const Product = require('../model/Product');
+const Category = require('../../../categories/model/Category');
+const Product = require('../../model/Product');
 
 class ProductsRepositoryInMemory {
     constructor() {

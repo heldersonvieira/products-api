@@ -1,4 +1,4 @@
-const CreateProduct = require("../services/CreateProduct");
+const CreateProduct = require("../services/createProduct/CreateProduct");
 
 class CreateProductController {
     handle(request, response) {
@@ -13,11 +13,6 @@ class CreateProductController {
 
         return response.status(201).json(product);
     }
-
-    // gllProducts(request, response) {
-    //     const products = productsRepository.get();
-    //     return response.json(products);
-    // }
 }
 
 module.exports = CreateProductController;

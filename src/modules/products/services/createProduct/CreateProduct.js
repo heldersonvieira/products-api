@@ -1,4 +1,4 @@
-const ProductsRepository = require('../repositories/ProductsRepository');
+const ProductsRepository = require("../../repositories/imMemory/ProductsRepository");
 
 class CreateProduct {
     static execute({ name, description, price, category_name }) {
