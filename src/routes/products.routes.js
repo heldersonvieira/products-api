@@ -1,13 +1,15 @@
 const express = require('express');
-const ProductsController = require('../modules/products/controller/ProductsController');
+const CreateProductController = require('../modules/products/controller/CreateProductController');
+const ListProductsController = require('../modules/products/controller/ListProductsController');
 
 const productsRoutes = express.Router();
-const productsController = new ProductsController();
+const createProductController = new CreateProductController();
+const listProductsController = new ListProductsController
 
+productsRoutes.post('/', createProductController.handle);
 
-productsRoutes.post('/', productsController.create);
+productsRoutes.get('/search-all', listProductsController.handle);
 
-productsRoutes.get('/', productsController.gllProducts);
-
+productsRoutes.get('/search/:id', listProductsController.handle)
 
 module.exports = productsRoutes;

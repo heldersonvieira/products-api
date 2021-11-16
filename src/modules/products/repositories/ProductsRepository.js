@@ -1,13 +1,9 @@
 const Category = require('../../categories/model/Category');
 const Product = require('../model/Product');
 
-class ProductsRepository {
+class ProductsRepositoryInMemory {
     constructor() {
         this.products = [];
-    }
-
-    get() {
-        return this.products;
     }
 
     create({ name, description, price, category_name }) {
@@ -24,6 +20,16 @@ class ProductsRepository {
 
         return product;
     }
+
+    findAll() {
+        return this.products;
+    }
+
+    findById(id) {
+        return this.products.find((product) => product.id === id);
+    }
 }
+
+const ProductsRepository = new ProductsRepositoryInMemory();
 
 module.exports = ProductsRepository;
