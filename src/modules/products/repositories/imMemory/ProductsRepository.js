@@ -28,6 +28,11 @@ class ProductsRepositoryInMemory {
     findById(id) {
         return this.products.find((product) => product.id === id);
     }
+
+    delete(id) {
+        const product = this.findById(id);
+        this.products.splice(product, 1);
+    }
 }
 
 const ProductsRepository = new ProductsRepositoryInMemory();

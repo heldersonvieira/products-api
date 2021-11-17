@@ -2,7 +2,7 @@
     [x] POST
     [x] GET
     [x] PUT
-    [] DELETE
+    [x] DELETE
 
 [] O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
     [] POST
