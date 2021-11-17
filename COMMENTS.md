@@ -1,4 +1,4 @@
-[] O usuário deverá ser capaz de criar, ler, editar e remover produtos.
+[x] O usuário deverá ser capaz de criar, ler, editar e remover produtos.
     [x] POST
     [x] GET
     [x] PUT
