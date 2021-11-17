@@ -1,5 +1,4 @@
 const uuid = require('uuid');
-const Category = require('../../categories/model/Category');
 
 class Product {
     constructor(name, description, price, category) {

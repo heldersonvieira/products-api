@@ -1,7 +1,7 @@
 [] O usuário deverá ser capaz de criar, ler, editar e remover produtos.
     [x] POST
     [x] GET
-    [] PUT
+    [x] PUT
     [] DELETE
 
 [] O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
@@ -17,8 +17,9 @@
 [] As consultas devem retornar no máximo 10 itens por requisição.
 
 [x] A consulta de produtos deverá ser capaz de retornar um produto especifico ou todos.
-    Se enviado o id do produto, então retornar o produto específico
-    [x] /products/:id
+    Criado duas rotas que retornam os produtos. 
+    [x] /products/search/:id (retorna um produto)
+    [x] /products/search/all (retorna todos os produtos)
 
 [] A consulta de categoria deverá ser capaz de retornar uma categoria especifica ou todas.
     Se enviado o id da categoria, então retornar a categoria específica
