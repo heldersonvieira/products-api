@@ -31,7 +31,14 @@ class ProductsRepositoryInMemory {
 
     delete(id) {
         const product = this.findById(id);
-        this.products.splice(product, 1);
+        
+        if (product.id === id) {
+            const indexProduct = this.products.indexOf(
+                this.findById(id)
+            );
+
+            this.products.splice(indexProduct, 1);
+        }
     }
 }
 

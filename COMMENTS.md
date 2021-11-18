@@ -4,11 +4,15 @@
     [x] PUT
     [x] DELETE
 
-[] O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
+    [] tratar erros
+
+[x] O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
     [x] POST
     [x] GET
-    [] PUT
-    [] DELETE
+    [x] PUT
+    [x] DELETE
+
+    [] tratar erros
 
 [] Um produto deverá ser relacionado a uma categoria.
 
