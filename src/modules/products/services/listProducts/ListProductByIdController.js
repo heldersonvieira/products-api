@@ -1,4 +1,4 @@
-const ListProductById = require("../services/listProducts/ListProductById");
+const ListProductById = require("./ListProductById");
 
 class ListProductByIdController {
     handle(request, response) {

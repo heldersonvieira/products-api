@@ -1,4 +1,4 @@
-const DeleteProduct = require("../services/deleteProduct/DeleteProduct");
+const DeleteProduct = require("./DeleteProduct");
 
 class DeleteProductController {
     handle(request, response) {

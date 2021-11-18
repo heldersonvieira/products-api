@@ -1,4 +1,4 @@
-const CreateProduct = require("../services/createProduct/CreateProduct");
+const CreateProduct = require("./CreateProduct");
 
 class CreateProductController {
     handle(request, response) {

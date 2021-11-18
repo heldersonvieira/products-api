@@ -1,12 +1,12 @@
-[] O usuário deverá ser capaz de criar, ler, editar e remover produtos.
+[x] O usuário deverá ser capaz de criar, ler, editar e remover produtos.
     [x] POST
     [x] GET
     [x] PUT
     [x] DELETE
 
 [] O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
-    [] POST
-    [] GET
+    [x] POST
+    [x] GET
     [] PUT
     [] DELETE
 
@@ -21,9 +21,10 @@
     [x] /products/search/:id (retorna um produto)
     [x] /products/search/all (retorna todos os produtos)
 
-[] A consulta de categoria deverá ser capaz de retornar uma categoria especifica ou todas.
-    Se enviado o id da categoria, então retornar a categoria específica
-    [] /categories/:id
+[x] A consulta de categoria deverá ser capaz de retornar uma categoria especifica ou todas.
+    Criado duas rotas que retornam os produtos. 
+    [x] /categories/search/:id (retorna uma)
+    [x] /categories/search/all (retorna todas as categorias)
 
 
 ## Exemplos

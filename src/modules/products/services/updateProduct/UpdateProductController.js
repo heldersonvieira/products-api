@@ -1,4 +1,4 @@
-const UpdateProduct = require('../services/updateProduct/UpdateProduct');
+const UpdateProduct = require('./UpdateProduct');
 
 class UpdateProductController {
     handle(request, response) {

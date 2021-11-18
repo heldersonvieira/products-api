@@ -1,4 +1,4 @@
-const ProductsRepository = require('../../repositories/imMemory/ProductsRepository');
+const ProductsRepository = require('../../repositories/inMemory/ProductsRepository');
 
 class UpdateProduct {
     static execute({ id, name, description, price }) {
