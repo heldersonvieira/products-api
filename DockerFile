@@ -1,0 +1,13 @@
+FROM node 
+
+WORKDIR /usr/products_api
+
+COPY package.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 333
+
+CMD ["nmp", "run", "dev"]
