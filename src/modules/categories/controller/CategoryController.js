@@ -1,34 +1,34 @@
-const CategoriesRepository = require('../repositories/inMemory/CategoriesRepository');
+const categoriesRepository = require('../repositories/CategoriesRepository');
 
 class CategoryController {
-    static create(request, response) {
+    static async create(request, response) {
         const { name } = request.body;
-        const category = CategoriesRepository.create(name);
+        const category = await categoriesRepository.create(name);
         return response.status(201).json(category);
     }
 
-    static update(request, response) {
+    static async update(request, response) {
         const { id } = request.params;
         const { name } = request.body;
-        const category = CategoriesRepository.update(id, name);
-        return response.status(201).json(category);
+        const message = await categoriesRepository.update({ id, name });
+        return response.status(201).json(message);
     }
 
-    static findAll(request, response) {
-        const categories = CategoriesRepository.findAll();
+    static async findAll(request, response) {
+        const categories = await categoriesRepository.findAll();
         return response.json(categories);
     }
 
-    static findById(request, response) {
+    static async findById(request, response) {
         const { id } = request.params;
-        const category = CategoriesRepository.findById(id);
+        const category = await categoriesRepository.findById(id);
         return response.json(category);
     }
 
-    static delete(request, response) {
+    static async delete(request, response) {
         const { id } = request.params;
-        CategoriesRepository.delete(id);
-        return response.send();
+        const message = await categoriesRepository.delete(id);
+        return response.json(message);
     }
 }
 

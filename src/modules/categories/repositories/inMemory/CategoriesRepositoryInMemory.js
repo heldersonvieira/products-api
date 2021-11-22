@@ -5,16 +5,15 @@ class CategoriesRepositoryInMemory {
         this._categories = [];
     }
 
-    create(name) {
+    async create(name) {
         const category = new Category();
         Object.assign(category, { name });
 
         this._categories.push(category);
-
         return category;
     }
 
-    findAll() {
+    async findAll() {
         return this._categories;
     }
 
@@ -40,6 +39,6 @@ class CategoriesRepositoryInMemory {
     }
 }
 
-const CategoriesRepository = new CategoriesRepositoryInMemory();
+const categoriesRepositoryInMemory = new CategoriesRepositoryInMemory();
 
-module.exports = CategoriesRepository;
+module.exports = categoriesRepositoryInMemory;
