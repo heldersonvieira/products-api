@@ -22,9 +22,14 @@ class CategoriesRepositoryInMemory {
         return this._categories.find((category) => category.id === id);
     }
 
+    update(id, name) {
+        const category = this.findById(id);
+        category.name = name;
+        return category;
+    }
+
     delete(id) {
         const category = this.findById(id);
-        
         if (category.id === id) {
             const indexCategory = this._categories.indexOf(
                 this.findById(id)

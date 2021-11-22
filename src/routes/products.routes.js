@@ -1,26 +1,16 @@
 const express = require('express');
-const CreateProductController = require('../modules/products/services/createProduct/CreateProductController');
-const DeleteProductController = require('../modules/products/services/deleteProduct/DeleteProductController');
-const ListProductByIdController = require('../modules/products/services/listProducts/ListProductByIdController');
-const ListProductsController = require('../modules/products/services/listProducts/ListProductsController');
-const UpdateProductController = require('../modules/products/services/updateProduct/UpdateProductController');
+const ProductController = require('../modules/products/controller/ProductController');
 
 const productsRoutes = express.Router();
 
-const createProductController = new CreateProductController();
-const listProductsController = new ListProductsController();
-const listProductByIdController = new ListProductByIdController();
-const updateProductController = new UpdateProductController();
-const deleteProductController = new DeleteProductController();
+productsRoutes.post('/', ProductController.create);
 
-productsRoutes.post('/', createProductController.handle);
+productsRoutes.get('/search/all', ProductController.findAll);
 
-productsRoutes.get('/search/all', listProductsController.handle);
+productsRoutes.get('/search/:id', ProductController.findById);
 
-productsRoutes.get('/search/:id', listProductByIdController.handle);
+productsRoutes.put('/:id', ProductController.update);
 
-productsRoutes.put('/:id', updateProductController.handle);
-
-productsRoutes.delete('/:id', deleteProductController.handle);
+productsRoutes.delete('/:id', ProductController.delete);
 
 module.exports = productsRoutes;

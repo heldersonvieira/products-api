@@ -21,6 +21,15 @@ class ProductsRepositoryInMemory {
         return product;
     }
 
+    update({ id, name, description, price }) {
+        const product = ProductsRepository.findById(id);
+        product.name = name;
+        product.description = description;
+        product.price = price;
+
+        return product;
+    }
+
     findAll() {
         return this.products;
     }

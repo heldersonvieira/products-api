@@ -1,20 +1,16 @@
 const express = require('express');
-const CreateCategoryController = require('../modules/categories/services/createCategory/CreateCategoryController');
-const DeleteCategoryController = require('../modules/categories/services/deleteCategory/DeleteCategoryController');
-const ListCategoriesController = require('../modules/categories/services/listCategories/ListCategoriesController');
-const ListCategoryByIdController = require('../modules/categories/services/listCategoryById/ListCategoryByIdController');
-const UpdateCategoryController = require('../modules/categories/services/updateCategory/UpdateCategoryController');
+const CategoryController = require('../modules/categories/controller/CategoryController');
 
 const categoriesRoutes = express.Router();
 
-categoriesRoutes.post('/', CreateCategoryController.handle);
+categoriesRoutes.post('/', CategoryController.create);
 
-categoriesRoutes.get('/search/all', ListCategoriesController.handle);
+categoriesRoutes.get('/search/all', CategoryController.findAll);
 
-categoriesRoutes.get('/search/:id', ListCategoryByIdController.handle);
+categoriesRoutes.get('/search/:id', CategoryController.findById);
 
-categoriesRoutes.put('/:id', UpdateCategoryController.handle);
+categoriesRoutes.put('/:id', CategoryController.update);
 
-categoriesRoutes.delete('/:id', DeleteCategoryController.handle);
+categoriesRoutes.delete('/:id', CategoryController.delete);
 
 module.exports = categoriesRoutes;
