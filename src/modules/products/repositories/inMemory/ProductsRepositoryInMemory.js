@@ -51,6 +51,6 @@ class ProductsRepositoryInMemory {
     }
 }
 
-const ProductsRepository = new ProductsRepositoryInMemory();
+const productsRepositoryInMemory = new ProductsRepositoryInMemory();
 
-module.exports = ProductsRepository;
+module.exports = productsRepositoryInMemory;

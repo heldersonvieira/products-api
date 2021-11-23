@@ -1,23 +1,22 @@
-const ProductsRepository = require('../repositories/inMemory/ProductsRepository');
+const productsRepository = require('../repositories/ProductsRepository');
 
 class ProductController {
-    static create(request, response) {
+    static async create(request, response) {
         const { name, description, price, category_name } = request.body;
-        const product = ProductsRepository.create({
+        const product = await productsRepository.create({
             name,
             description,
             price,
             category_name,
         });
-
         return response.status(201).json(product);
     }
 
-    static update(request, response) {
+    static async update(request, response) {
         const { id } = request.params;
         const { name, description, price } = request.body;
 
-        const product = ProductsRepository.update({
+        const product = await productsRepository.update({
             id,
             name,
             description,
@@ -27,23 +26,23 @@ class ProductController {
         return response.status(201).json(product);
     }
 
-    static findAll(request, response) {
-        const products = ProductsRepository.findAll();
+    static async findAll(request, response) {
+        const products = await productsRepository.findAll();
         return response.json(products);
     }
 
-    static findById(request, response) {
+    static async findById(request, response) {
         const { id } = request.params;
-        const product = ProductsRepository.findById(id);
+        const product = await productsRepository.findById(id);
 
         return response.json(product);
     }
 
-    static delete(request, response) {
+    static async delete(request, response) {
         const { id } = request.params;
-        ProductsRepository.delete(id);
-
-        return response.send();
+        const message = await productsRepository.delete(id);
+        
+        return response.send(message);
     }
 }
 

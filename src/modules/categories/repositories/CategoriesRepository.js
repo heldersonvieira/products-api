@@ -1,10 +1,11 @@
 const {
-    create,
+    createCategory,
     selectAll,
     selectById,
-    update,
+    updateCategory,
     deleteCategory,
-} = require('../../../database/queries/selects');
+    selectCategoryByName,
+} = require('../infra/queries');
 const Category = require('../model/Category');
 
 class CategoriesRepository {
@@ -12,13 +13,13 @@ class CategoriesRepository {
         const category = new Category();
         Object.assign(category, { name });
 
-        await create(category);
+        await createCategory(category);
 
         return category;
     }
 
     async update({ id, name }) {
-        await update({ id, name });
+        await updateCategory({ id, name });
         return {
             message: 'Updated category',
         };
@@ -34,10 +35,19 @@ class CategoriesRepository {
     }
 
     async delete(id) {
-        await deleteCategory(id);
-        return {
-            message: 'Deleted category',
-        };
+        let message = 'Deleted category';
+        const categoryStillExists = await deleteCategory(id);
+
+        if (!categoryStillExists) {
+            message = 'Category does not exists';
+        }
+
+        return { message };
+    }
+
+    async findByName(name) {
+        const category = await selectCategoryByName(name);
+        return category;
     }
 }
 

@@ -1,6 +1,6 @@
-const database = require('../database');
+const database = require('../../../../database/database');
 
-exports.create = async ({ id, name }) => {
+exports.createCategory = async ({ id, name }) => {
     const res = await database.query(
         'INSERT INTO products_api.categories (id, name) VALUES ($1, $2)',
         [id, name]
@@ -8,7 +8,7 @@ exports.create = async ({ id, name }) => {
     return res;
 };
 
-exports.update = async ({ id, name }) => {
+exports.updateCategory = async ({ id, name }) => {
     const res = await database.query(
         `UPDATE products_api.categories c SET name = '${name}' WHERE id = '${id}'`
     );
@@ -24,12 +24,21 @@ exports.selectById = async (id, table) => {
     const res = await database.query(
         `SELECT * FROM products_api.${table} c WHERE id = '${id}'`
     );
-
     return res.rows;
 };
 
+exports.selectCategoryByName = async (name) => {
+    const res = await database.query(
+        `SELECT * FROM products_api.categories WHERE name = LOWER('${name}')`
+    );
+    
+    return res.rows[0];
+};
+
 exports.deleteCategory = async (id) => {
-    return await database.query(
+    const res = await database.query(
         `DELETE FROM products_api.categories WHERE id = '${id}'`
     );
+
+    return res.rowCount;
 };
