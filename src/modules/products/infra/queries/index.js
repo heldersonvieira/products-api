@@ -23,7 +23,8 @@ exports.updateProduct = async ({ id, name, description, price }) => {
             SET 
             name = '${name}',
             description = '${description}',
-            price = ${price}
+            price = ${price},
+            updated_at = now()
             where id = '${id}'
         `
     );
