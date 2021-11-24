@@ -1,4 +1,4 @@
-const categoriesRepository = require('../repositories/CategoriesRepository');
+import { categoriesRepository } from '../repositories/CategoriesRepository.js';
 
 class CategoryController {
     static async create(request, response) {
@@ -32,4 +32,4 @@ class CategoryController {
     }
 }
 
-module.exports = CategoryController;
+export { CategoryController };

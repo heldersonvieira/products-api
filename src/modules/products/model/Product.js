@@ -1,8 +1,8 @@
-const uuid = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
 class Product {
     constructor(name, description, price, category_id) {
-        this.id = uuid.v4();
+        this.id = uuidv4();
         this.name = name;
         this.description = description;
         this.price = price;
@@ -12,4 +12,4 @@ class Product {
     }
 }
 
-module.exports = Product;
+export { Product };

@@ -1,4 +1,4 @@
-const productsRepository = require('../repositories/ProductsRepository');
+import { productsRepository } from '../repositories/ProductsRepository.js';
 
 class ProductController {
     static async create(request, response) {
@@ -41,9 +41,9 @@ class ProductController {
     static async delete(request, response) {
         const { id } = request.params;
         const message = await productsRepository.delete(id);
-        
+
         return response.send(message);
     }
 }
 
-module.exports = ProductController;
+export { ProductController };

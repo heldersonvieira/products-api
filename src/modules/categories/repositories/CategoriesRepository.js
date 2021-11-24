@@ -1,12 +1,12 @@
-const {
+import {
     createCategory,
     selectAll,
     selectById,
     updateCategory,
     deleteCategory,
     selectCategoryByName,
-} = require('../infra/queries');
-const Category = require('../model/Category');
+} from '../infra/queries/index.js';
+import { Category } from '../model/Category.js';
 
 class CategoriesRepository {
     async create(name) {
@@ -14,8 +14,8 @@ class CategoriesRepository {
 
         if (categoryAlreadyExists) {
             return {
-                message: 'Category already exists'
-            }
+                message: 'Category already exists',
+            };
         }
 
         const category = new Category();
@@ -61,4 +61,4 @@ class CategoriesRepository {
 
 const categoriesRepository = new CategoriesRepository();
 
-module.exports = categoriesRepository;
+export { categoriesRepository };

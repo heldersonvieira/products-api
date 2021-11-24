@@ -1,14 +1,12 @@
-// const Category = require('../../../categories/model/Category');
-const database = require('../../../database/database');
-const categoriesRepository = require('../../categories/repositories/CategoriesRepository');
-const Product = require('../../products/model/Product');
-const {
+import { categoriesRepository } from '../../categories/repositories/CategoriesRepository.js';
+import { Product } from '../../products/model/Product.js';
+import {
     createProduct,
     selectAll,
     selectById,
     updateProduct,
     deleteProduct,
-} = require('../infra/queries');
+} from '../infra/queries/index.js';
 
 class ProductsRepository {
     async create({ name, description, price, category_name }) {
@@ -31,7 +29,7 @@ class ProductsRepository {
         });
 
         await createProduct(product);
-        
+
         return product;
     }
 
@@ -64,4 +62,4 @@ class ProductsRepository {
 
 const productsRepository = new ProductsRepository();
 
-module.exports = productsRepository;
+export { productsRepository };

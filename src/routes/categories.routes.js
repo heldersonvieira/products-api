@@ -1,5 +1,5 @@
-const express = require('express');
-const CategoryController = require('../modules/categories/controller/CategoryController');
+import express from 'express';
+import { CategoryController } from '../modules/categories/controller/CategoryController.js';
 
 const categoriesRoutes = express.Router();
 
@@ -13,4 +13,4 @@ categoriesRoutes.put('/:id', CategoryController.update);
 
 categoriesRoutes.delete('/:id', CategoryController.delete);
 
-module.exports = categoriesRoutes;
+export { categoriesRoutes };

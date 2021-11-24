@@ -1,5 +1,5 @@
-const express = require('express');
-const ProductController = require('../modules/products/controller/ProductController');
+import express from 'express';
+import { ProductController } from '../modules/products/controller/ProductController.js';
 
 const productsRoutes = express.Router();
 
@@ -13,4 +13,4 @@ productsRoutes.put('/:id', ProductController.update);
 
 productsRoutes.delete('/:id', ProductController.delete);
 
-module.exports = productsRoutes;
+export { productsRoutes };

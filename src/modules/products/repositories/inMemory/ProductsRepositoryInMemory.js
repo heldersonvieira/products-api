@@ -1,5 +1,5 @@
-const Category = require('../../../categories/model/Category');
-const Product = require('../../model/Product');
+import { Category } from '../../../categories/model/Category.js';
+import { Product } from '../../model/Product.js';
 
 class ProductsRepositoryInMemory {
     constructor() {
@@ -40,11 +40,9 @@ class ProductsRepositoryInMemory {
 
     delete(id) {
         const product = this.findById(id);
-        
+
         if (product.id === id) {
-            const indexProduct = this.products.indexOf(
-                this.findById(id)
-            );
+            const indexProduct = this.products.indexOf(this.findById(id));
 
             this.products.splice(indexProduct, 1);
         }
@@ -53,4 +51,4 @@ class ProductsRepositoryInMemory {
 
 const productsRepositoryInMemory = new ProductsRepositoryInMemory();
 
-module.exports = productsRepositoryInMemory;
+export { productsRepositoryInMemory };

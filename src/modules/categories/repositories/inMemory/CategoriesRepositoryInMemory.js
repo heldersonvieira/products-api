@@ -1,4 +1,4 @@
-const Category = require('../../model/Category');
+import Category from '../../model/Category.js';
 
 class CategoriesRepositoryInMemory {
     constructor() {
@@ -30,9 +30,7 @@ class CategoriesRepositoryInMemory {
     delete(id) {
         const category = this.findById(id);
         if (category.id === id) {
-            const indexCategory = this._categories.indexOf(
-                this.findById(id)
-            );
+            const indexCategory = this._categories.indexOf(this.findById(id));
 
             this._categories.splice(indexCategory, 1);
         }
@@ -41,4 +39,4 @@ class CategoriesRepositoryInMemory {
 
 const categoriesRepositoryInMemory = new CategoriesRepositoryInMemory();
 
-module.exports = categoriesRepositoryInMemory;
+export { categoriesRepositoryInMemory };

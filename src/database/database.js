@@ -1,12 +1,14 @@
-const { Pool } = require('pg');
-const { ENVLOCAL } = require('../../.ENVLOCAL');
+import pkg from 'pg';
+import { ENVLOCAL } from '../../.ENVLOCAL.js';
+
+const { Pool } = pkg;
 
 const database = new Pool({
-    user: ENVLOCAL.user,
-    host: ENVLOCAL.host,
-    database: ENVLOCAL.database,
-    password: ENVLOCAL.password,
-    port: ENVLOCAL.port,
+    user: 'postgres',
+    host: '172.18.0.2',
+    database: 'products_api',
+    password: 'postgres',
+    port: 5432,
 });
 
-module.exports = database;
+export { database };
