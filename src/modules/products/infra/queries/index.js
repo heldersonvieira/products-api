@@ -13,6 +13,13 @@ exports.createProduct = async ({
         VALUES ($1, $2, $3, $4, $5)`,
         [id, name, description, price, category_id]
     );
+
+    await database.query(
+        `INSERT INTO products_api.category_products 
+        (category_id, product_id) VALUES ($1, $2)`,
+        [category_id, id]
+    );
+    
     return res;
 };
 

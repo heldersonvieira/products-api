@@ -10,6 +10,14 @@ const Category = require('../model/Category');
 
 class CategoriesRepository {
     async create(name) {
+        const categoryAlreadyExists = await this.findByName(name);
+
+        if (categoryAlreadyExists) {
+            return {
+                message: 'Category already exists'
+            }
+        }
+
         const category = new Category();
         Object.assign(category, { name });
 

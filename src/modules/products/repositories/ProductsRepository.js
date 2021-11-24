@@ -18,6 +18,7 @@ class ProductsRepository {
             category_name
         );
 
+        console.log(categoryExists);
         if (!categoryExists) {
             return { message: 'Category does not exists' };
         }
@@ -30,10 +31,8 @@ class ProductsRepository {
         });
 
         await createProduct(product);
-        const retorno = await database.query(
-            `select * from products_api.products where id = '${product.id}'`
-        );
-        return retorno.rows;
+        
+        return product;
     }
 
     async update({ id, name, description, price }) {
