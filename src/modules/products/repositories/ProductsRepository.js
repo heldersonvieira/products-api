@@ -10,53 +10,98 @@ import {
 
 class ProductsRepository {
     async create({ name, description, price, category_name }) {
-        const product = new Product();
+        try {
+            const categoryExists = await categoriesRepository.findByName(
+                category_name
+            );
 
-        const categoryExists = await categoriesRepository.findByName(
-            category_name
-        );
+            if (!categoryExists) {
+                return {
+                    status: 404,
+                    body: {
+                        message: `Category does not exists. First add the category ${category_name}`,
+                    },
+                };
+            }
 
-        console.log(categoryExists);
-        if (!categoryExists) {
-            return { message: 'Category does not exists' };
+            const product = new Product();
+            Object.assign(product, {
+                name,
+                description,
+                price,
+                category_id: categoryExists.id,
+            });
+
+            await createProduct(product);
+
+            return {
+                status: 201,
+                product,
+            };
+        } catch (error) {
+            return {
+                status: 400,
+                body: { message: 'Product cannot be created' },
+            };
         }
-
-        Object.assign(product, {
-            name,
-            description,
-            price,
-            category_id: categoryExists.id,
-        });
-
-        await createProduct(product);
-
-        return product;
     }
 
     async update({ id, name, description, price }) {
-        await updateProduct({ id, name, description, price });
-        return {
-            message: 'Updated product',
-        };
+        try {
+            await updateProduct({ id, name, description, price });
+            return {
+                status: 201,
+                body: { message: 'Updated product' },
+            };
+        } catch (error) {
+            return {
+                status: 400,
+                body: {
+                    message: `Product cannot be updated, try again later.`,
+                },
+            };
+        }
     }
 
     async findAll() {
-        return await selectAll('products');
+        try {
+            const products = await selectAll('products');
+            return { status: 200, body: products };
+        } catch (error) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Cannot list products',
+                },
+            };
+        }
     }
 
     async findById(id) {
-        return await selectById(id, 'products');
+        try {
+            const product = await selectById(id, 'products');
+            return { status: 200, body: product };
+        } catch (error) {
+            return {
+                status: 400,
+                message: 'Cannot list the product',
+            };
+        }
     }
 
     async delete(id) {
-        let message = 'Deleted product';
-        const productStillExists = await deleteProduct(id);
+        try {
+            let message = 'Deleted product';
+            const productStillExists = await deleteProduct(id);
 
-        if (!productStillExists) {
-            message = 'Product does not exists';
+            if (!productStillExists) {
+                message = 'Product does not exists';
+            }
+
+            return { status: 200, body: message };
+        } catch (error) {
+            return { status: 400, body: { message: 'Cannot delete product' }};
         }
-
-        return { message };
     }
 }
 

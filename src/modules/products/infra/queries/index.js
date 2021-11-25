@@ -18,17 +18,15 @@ const createProduct = async ({ id, name, description, price, category_id }) => {
 };
 
 const updateProduct = async ({ id, name, description, price }) => {
-    const res = await database.query(
-        `
-            UPDATE products_api.products 
-            SET 
-            name = '${name}',
-            description = '${description}',
-            price = ${price},
-            updated_at = now()
-            where id = '${id}'
-        `
-    );
+    const res = await database.query(`
+        UPDATE products_api.product
+        SET 
+        name = '${name}',
+        description = '${description}',
+        price = ${price},
+        updated_at = now()
+        where id = '${id}'
+    `);
     return res;
 };
 

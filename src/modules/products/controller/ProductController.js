@@ -3,32 +3,32 @@ import { productsRepository } from '../repositories/ProductsRepository.js';
 class ProductController {
     static async create(request, response) {
         const { name, description, price, category_name } = request.body;
-        const product = await productsRepository.create({
+        const res = await productsRepository.create({
             name,
             description,
             price,
             category_name,
         });
-        return response.status(201).json(product);
+        return response.status(res.status).json(res.body);
     }
 
     static async update(request, response) {
         const { id } = request.params;
         const { name, description, price } = request.body;
 
-        const product = await productsRepository.update({
+        const res = await productsRepository.update({
             id,
             name,
             description,
             price,
         });
 
-        return response.status(201).json(product);
+        return response.status(res.status).json(res.body);
     }
 
     static async findAll(request, response) {
-        const products = await productsRepository.findAll();
-        return response.json(products);
+        const res = await productsRepository.findAll();
+        return response.status(res.status).json(res.body);
     }
 
     static async findById(request, response) {
