@@ -15,14 +15,12 @@ class ProductController {
     static async update(request, response) {
         const { id } = request.params;
         const { name, description, price } = request.body;
-
         const res = await productsRepository.update({
             id,
             name,
             description,
             price,
         });
-
         return response.status(res.status).json(res.body);
     }
 
@@ -33,16 +31,14 @@ class ProductController {
 
     static async findById(request, response) {
         const { id } = request.params;
-        const product = await productsRepository.findById(id);
-
-        return response.json(product);
+        const res = await productsRepository.findById(id);
+        return response.status(res.status).json(res.body);
     }
 
     static async delete(request, response) {
         const { id } = request.params;
-        const message = await productsRepository.delete(id);
-
-        return response.send(message);
+        const res = await productsRepository.delete(id);
+        return response.status(res.status).json(res.body);
     }
 }
 

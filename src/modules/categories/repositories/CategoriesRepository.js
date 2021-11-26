@@ -10,52 +10,75 @@ import { Category } from '../model/Category.js';
 
 class CategoriesRepository {
     async create(name) {
-        const categoryAlreadyExists = await this.findByName(name);
+        try {
+            const categoryAlreadyExists = await selectCategoryByName(name);
+            if (categoryAlreadyExists) {
+                return {
+                    status: 200,
+                    body: { message: 'Category already exists' },
+                };
+            }
 
-        if (categoryAlreadyExists) {
-            return {
-                message: 'Category already exists',
-            };
+            const category = new Category();
+            Object.assign(category, { name });
+
+            await createCategory(category);
+
+            return { status: 201, body: category };
+        } catch (error) {
+            return { status: 400, body: { message: 'Cannot create category' } };
         }
-
-        const category = new Category();
-        Object.assign(category, { name });
-
-        await createCategory(category);
-
-        return category;
     }
 
     async update({ id, name }) {
-        await updateCategory({ id, name });
-        return {
-            message: 'Updated category',
-        };
+        try {
+            await updateCategory({ id, name });
+            return { status: 201, body: { message: 'Updated category' } };
+        } catch (error) {
+            return { status: 400, body: { message: 'Cannot update category' } };
+        }
     }
 
     async findAll() {
-        return await selectAll('categories');
+        try {
+            const categories = await selectAll('categories');
+            return { status: 200, body: categories };
+        } catch (error) {
+            return { status: 400, body: { message: 'Cannot list categories' } };
+        }
     }
 
     async findById(id) {
-        const category = await selectById(id, 'categories');
-        return category;
+        try {
+            const category = await selectById(id, 'categories');
+            return { status: 200, body: category };
+        } catch (error) {
+            return { status: 400, body: { message: 'Cannot list category' } };
+        }
     }
 
     async delete(id) {
-        let message = 'Deleted category';
-        const categoryStillExists = await deleteCategory(id);
+        try {
+            let message = 'Deleted category';
+            const categoryStillExists = await deleteCategory(id);
 
-        if (!categoryStillExists) {
-            message = 'Category does not exists';
+            if (!categoryStillExists) {
+                message = 'Category does not exists';
+            }
+
+            return { status: 200, body: { message } };
+        } catch (error) {
+            return { status: 400, body: { message: 'Cannot delete category' } };
         }
-
-        return { message };
     }
 
     async findByName(name) {
-        const category = await selectCategoryByName(name);
-        return category;
+        try {
+            const category = await selectCategoryByName(name);
+            return category;
+        } catch (error) {
+            return { err: 'Cannot find category' };
+        }
     }
 }
 

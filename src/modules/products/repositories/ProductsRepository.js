@@ -15,7 +15,7 @@ class ProductsRepository {
                 category_name
             );
 
-            if (!categoryExists) {
+            if (!categoryExists || categoryExists.err) {
                 return {
                     status: 404,
                     body: {
@@ -84,7 +84,7 @@ class ProductsRepository {
         } catch (error) {
             return {
                 status: 400,
-                message: 'Cannot list the product',
+                body: { message: 'Cannot list product' },
             };
         }
     }
@@ -92,15 +92,17 @@ class ProductsRepository {
     async delete(id) {
         try {
             let message = 'Deleted product';
+            let status = 200;
             const productStillExists = await deleteProduct(id);
 
             if (!productStillExists) {
+                status = 404;
                 message = 'Product does not exists';
             }
 
-            return { status: 200, body: message };
+            return { status, body: { message } };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot delete product' }};
+            return { status: 400, body: { message: 'Cannot delete product' } };
         }
     }
 }
