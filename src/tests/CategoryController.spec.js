@@ -8,9 +8,9 @@ describe('Categories', function () {
     });
 
     it('should be able to create a new category', async () => {
-      const response = await request(app).post('/categories').send({
+        const response = await request(app).post('/categories').send({
             name: 'test',
-        });  
+        });
         expect(response.status).toBe(201);
     });
 
@@ -22,9 +22,9 @@ describe('Categories', function () {
         const response = await request(app).post('/categories').send({
             name: 'test',
         });
-        
+
         expect(response.status).toBe(204);
-    })
+    });
 
     it('should be able to list all categories', async () => {
         await request(app).post('/categories').send({
@@ -47,5 +47,48 @@ describe('Categories', function () {
 
         expect(getResponse.status).toBe(200);
         expect(getResponse.body[0].name).toEqual(postResponse.body.name);
+    });
+
+    it('should be able to update a category', async () => {
+        const postResponse = await request(app).post('/categories').send({
+            name: 'Category test',
+        });
+
+        const newName = 'Updated category';
+        const id = postResponse.body.id;
+
+        const putResponse = await request(app).put(`/categories/${id}`).send({
+            name: newName,
+        });
+
+        const getResponse = await request(app).get(`/categories/search/${id}`);
+
+        expect(putResponse.status).toBe(201);
+        expect(getResponse.body[0].name).toEqual(newName);
+    });
+
+    it('should be able to delete a category', async () => {
+        const postResponse = await request(app).post('/categories').send({
+            name: 'Delete test',
+        });
+
+        const id = postResponse.body.id;
+        const deleteResponse = await request(app).delete(`/categories/${id}`);
+        const getResponse = await request(app).get(`/categories/search/all`);
+
+        expect(deleteResponse.status).toBe(200);
+        expect(getResponse.body.length).toBe(0);
+    });
+
+    it('should not be able to delete a non-existent category', async () => {
+        const postResponse = await request(app).post('/categories').send({
+            name: 'Delete test',
+        });
+
+        const id = postResponse.body.id;
+        await request(app).delete(`/categories/${id}`);
+        const deleteResponse = await request(app).delete(`/categories/${id}`);
+
+        expect(deleteResponse.status).toBe(404);
     });
 });

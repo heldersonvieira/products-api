@@ -64,6 +64,7 @@ class CategoriesRepository {
 
             if (!categoryStillExists) {
                 message = 'Category does not exists';
+                return { status: 404, body: { message } };
             }
 
             return { status: 200, body: { message } };
