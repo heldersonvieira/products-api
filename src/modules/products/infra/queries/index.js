@@ -1,15 +1,16 @@
 import { database } from '../../../../database/database.js';
+import { schema } from '../../../../../.configDatabase.js';
 
 const createProduct = async ({ id, name, description, price, category_id }) => {
     const res = await database.query(
-        `INSERT INTO products_api.products 
+        `INSERT INTO ${schema}.products 
         (id, name, description, price, category_id) 
         VALUES ($1, $2, $3, $4, $5)`,
         [id, name, description, price, category_id]
     );
 
     await database.query(
-        `INSERT INTO products_api.category_products 
+        `INSERT INTO ${schema}.category_products 
         (category_id, product_id) VALUES ($1, $2)`,
         [category_id, id]
     );
@@ -19,7 +20,7 @@ const createProduct = async ({ id, name, description, price, category_id }) => {
 
 const updateProduct = async ({ id, name, description, price }) => {
     const res = await database.query(`
-        UPDATE products_api.product
+        UPDATE ${schema}.product
         SET 
         name = '${name}',
         description = '${description}',
@@ -31,24 +32,24 @@ const updateProduct = async ({ id, name, description, price }) => {
 };
 
 const selectAll = async (table) => {
-    const res = await database.query(`SELECT * FROM products_api.${table}`);
+    const res = await database.query(`SELECT * FROM ${schema}.${table}`);
     return res.rows;
 };
 
 const selectById = async (id, table) => {
     const res = await database.query(
-        `SELECT * FROM products_api.${table} WHERE id = '${id}'`
+        `SELECT * FROM ${schema}.${table} WHERE id = '${id}'`
     );
     return res.rows;
 };
 
 const deleteProduct = async (id) => {
     await database.query(
-        `DELETE FROM products_api.category_products WHERE product_id = '${id}'`
+        `DELETE FROM ${schema}.category_products WHERE product_id = '${id}'`
     );
     
     const res = await database.query(
-        `DELETE FROM products_api.products WHERE id = '${id}'`
+        `DELETE FROM ${schema}.products WHERE id = '${id}'`
     );
 
     return res.rowCount;

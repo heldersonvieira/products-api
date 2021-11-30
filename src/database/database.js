@@ -1,14 +1,14 @@
 import pkg from 'pg';
-import { ENVLOCAL } from '../../.ENVLOCAL.js';
+import { configDatabase } from '../../.configDatabase.js';
 
 const { Pool } = pkg;
 
 const database = new Pool({
-    user: 'postgres',
-    host: '172.18.0.2',
-    database: 'products_api',
-    password: 'postgres',
-    port: 5432,
+    user: configDatabase().user,
+    host: configDatabase().host,
+    database: configDatabase().database,
+    password: configDatabase().password,
+    port: configDatabase().port,
 });
 
 export { database };

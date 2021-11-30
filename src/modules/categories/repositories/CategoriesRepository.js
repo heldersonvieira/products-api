@@ -14,7 +14,7 @@ class CategoriesRepository {
             const categoryAlreadyExists = await selectCategoryByName(name);
             if (categoryAlreadyExists) {
                 return {
-                    status: 200,
+                    status: 204,
                     body: { message: 'Category already exists' },
                 };
             }
