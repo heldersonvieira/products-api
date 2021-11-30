@@ -20,7 +20,7 @@ const createProduct = async ({ id, name, description, price, category_id }) => {
 
 const updateProduct = async ({ id, name, description, price }) => {
     const res = await database.query(`
-        UPDATE ${schema}.product
+        UPDATE ${schema}.products
         SET 
         name = '${name}',
         description = '${description}',

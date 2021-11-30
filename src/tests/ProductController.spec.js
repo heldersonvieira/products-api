@@ -30,7 +30,7 @@ describe('Products', function () {
             price: 199.99,
             category_name: category.name,
         });
-        
+
         expect(postRes.status).toBe(201);
         expect(postRes.body).toHaveProperty('id');
     });
@@ -42,9 +42,29 @@ describe('Products', function () {
             price: 199.99,
             category_name: 'nonexistent',
         });
-        
+
         expect(postRes.status).toBe(404);
         expect(postRes.body.message).toBeTruthy();
+    });
+
+    it('should be able to update a product', async () => {
+        const postRes = await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: category.name,
+        });
+
+        const id = postRes.body.id;
+
+        const putRes = await request(app).put(`/products/${id}`).send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 500.0,
+        });
+
+        expect(putRes.status).toBe(201);
+        expect(putRes.body.message).toBe('Updated product');
     });
 
     it('should be able to list all products', async () => {
@@ -56,9 +76,25 @@ describe('Products', function () {
         });
 
         const getRes = await request(app).get('/products/search/all');
-        
+
         expect(getRes.status).toBe(200);
         expect(getRes.body.length).toBe(1);
+    });
+
+    it('should be able to delete a product', async () => {
+        const postRes = await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: category.name,
+        });
+
+        const id = postRes.body.id;
+        const deleteRes = await request(app).delete(`/products/${id}`);
+        const getRes = await request(app).get(`/products/search/all`);
+
+        expect(deleteRes.status).toBe(200);
+        expect(getRes.body.length).toBe(0);
     });
 
     it('should be able to find product by id', async () => {
@@ -71,7 +107,7 @@ describe('Products', function () {
 
         const id = postRes.body.id;
         const getRes = await request(app).get(`/products/search/${id}`);
-        
+
         expect(getRes.status).toBe(200);
         expect(getRes.body[0].id).toEqual(id);
     });
