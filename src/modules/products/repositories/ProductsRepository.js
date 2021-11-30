@@ -11,11 +11,11 @@ import {
 class ProductsRepository {
     async create({ name, description, price, category_name }) {
         try {
-            const categoryExists = await categoriesRepository.findByName(
-                category_name
-            );
-
-            if (!categoryExists || categoryExists.err) {
+            const res = await categoriesRepository.findAll();
+            const categories = res.body;
+            
+            const categoryExists = categories.find(category => category.name === category_name);
+            if (!categoryExists) {
                 return {
                     status: 404,
                     body: {
@@ -36,7 +36,7 @@ class ProductsRepository {
 
             return {
                 status: 201,
-                product,
+                body: product,
             };
         } catch (error) {
             return {

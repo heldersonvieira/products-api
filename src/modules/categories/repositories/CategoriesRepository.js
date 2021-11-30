@@ -73,14 +73,10 @@ class CategoriesRepository {
         }
     }
 
-    async findByName(name) {
-        try {
-            const category = await selectCategoryByName(name);
-            return category;
-        } catch (error) {
-            return { err: 'Cannot find category' };
-        }
-    }
+    // async findByName(name) {
+    //     const category = await selectCategoryByName(name);
+    //     return category;
+    // }
 }
 
 const categoriesRepository = new CategoriesRepository();

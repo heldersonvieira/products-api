@@ -4,6 +4,12 @@ import { database } from '../database/database.js';
 
 describe('Categories', function () {
     afterEach(async () => {
+        await database.query('DELETE FROM products_api_test.category_products');
+        await database.query('DELETE FROM products_api_test.products');
+        await database.query('DELETE FROM products_api_test.categories');
+    });
+    
+    afterEach(async () => {
         await database.query('DELETE FROM products_api_test.categories');
     });
 
