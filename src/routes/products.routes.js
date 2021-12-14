@@ -5,9 +5,9 @@ const productsRoutes = express.Router();
 
 productsRoutes.post('/', ProductController.create);
 
-productsRoutes.get('/search/all', ProductController.findAll);
+productsRoutes.get('/', ProductController.findAll);
 
-productsRoutes.get('/search/:id', ProductController.findById);
+productsRoutes.get('/:id', ProductController.findById);
 
 productsRoutes.put('/:id', ProductController.update);
 

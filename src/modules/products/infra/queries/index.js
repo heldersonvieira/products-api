@@ -1,5 +1,5 @@
-import { database } from '../../../../database/database.js';
-import { schema } from '../../../../../.configDatabase.js';
+import { database } from '../../../../data/database.js';
+import { schema } from '../../../../data/database.js';
 
 const createProduct = async ({ id, name, description, price, category_id }) => {
     const res = await database.query(

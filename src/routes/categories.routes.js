@@ -5,9 +5,9 @@ const categoriesRoutes = express.Router();
 
 categoriesRoutes.post('/', CategoryController.create);
 
-categoriesRoutes.get('/search/all', CategoryController.findAll);
+categoriesRoutes.get('/', CategoryController.findAll);
 
-categoriesRoutes.get('/search/:id', CategoryController.findById);
+categoriesRoutes.get('/:id', CategoryController.findById);
 
 categoriesRoutes.put('/:id', CategoryController.update);
 

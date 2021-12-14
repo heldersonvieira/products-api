@@ -1,6 +1,5 @@
-import { database } from '../../../../database/database.js';
-import { schema } from '../../../../../.configDatabase.js';
-
+import { database } from '../../../../data/database.js';
+import { schema } from '../../../../data/database.js';
 
 const createCategory = async ({ id, name }) => {
     const res = await database.query(
@@ -18,9 +17,7 @@ const updateCategory = async ({ id, name }) => {
 };
 
 const selectAll = async (table) => {
-    const res = await database.query(
-        `SELECT * FROM ${schema}.${table}`
-    );
+    const res = await database.query(`SELECT * FROM ${schema}.${table}`);
     return res.rows;
 };
 

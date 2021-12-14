@@ -26,7 +26,9 @@ Criado duas rotas que retornam os produtos.
 ## integração com postgres
 
 [x] Um produto deverá ser relacionado a uma categoria.
-[] Uma categoria deverá ser relacionada a um ou mais produtos.
+[x] Uma categoria deverá ser relacionada a um ou mais produtos.
+
+
 [] As consultas devem retornar no máximo 10 itens por requisição.
 
 

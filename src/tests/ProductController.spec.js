@@ -1,6 +1,6 @@
 import { app } from '../app.js';
 import request from 'supertest';
-import { database } from '../database/database.js';
+import { database } from '../data/database.js';
 
 let category;
 
@@ -21,6 +21,10 @@ describe('Products', function () {
         await database.query('DELETE FROM products_api_test.category_products');
         await database.query('DELETE FROM products_api_test.products');
         await database.query('DELETE FROM products_api_test.categories');
+    });
+
+    afterAll(() => {
+        database.end();
     });
 
     it('should be able to create a new product', async () => {
@@ -75,7 +79,7 @@ describe('Products', function () {
             category_name: category.name,
         });
 
-        const getRes = await request(app).get('/products/search/all');
+        const getRes = await request(app).get('/products');
 
         expect(getRes.status).toBe(200);
         expect(getRes.body.length).toBe(1);
@@ -91,7 +95,7 @@ describe('Products', function () {
 
         const id = postRes.body.id;
         const deleteRes = await request(app).delete(`/products/${id}`);
-        const getRes = await request(app).get(`/products/search/all`);
+        const getRes = await request(app).get(`/products`);
 
         expect(deleteRes.status).toBe(200);
         expect(getRes.body.length).toBe(0);
@@ -106,7 +110,7 @@ describe('Products', function () {
         });
 
         const id = postRes.body.id;
-        const getRes = await request(app).get(`/products/search/${id}`);
+        const getRes = await request(app).get(`/products/${id}`);
 
         expect(getRes.status).toBe(200);
         expect(getRes.body[0].id).toEqual(id);

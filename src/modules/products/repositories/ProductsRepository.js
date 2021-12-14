@@ -47,7 +47,10 @@ class ProductsRepository {
     }
 
     async update({ id, name, description, price }) {
+        let response
         try {
+            const product = this.findById(id);
+            if (!product) 
             await updateProduct({ id, name, description, price });
             return {
                 status: 201,

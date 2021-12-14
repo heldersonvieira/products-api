@@ -1,6 +1,6 @@
 import { app } from '../app.js';
 import request from 'supertest';
-import { database } from '../database/database.js';
+import { database } from '../data/database.js';
 
 describe('Categories', function () {
     afterEach(async () => {
@@ -8,9 +8,13 @@ describe('Categories', function () {
         await database.query('DELETE FROM products_api_test.products');
         await database.query('DELETE FROM products_api_test.categories');
     });
-    
+
     afterEach(async () => {
         await database.query('DELETE FROM products_api_test.categories');
+    });
+
+    afterAll(() => {
+        database.end();
     });
 
     it('should be able to create a new category', async () => {
@@ -36,8 +40,7 @@ describe('Categories', function () {
         await request(app).post('/categories').send({
             name: 'testList',
         });
-
-        const response = await request(app).get('/categories/search/all');
+        const response = await request(app).get('/categories');
 
         expect(response.status).toBe(200);
         expect(response.body.length).toBe(1);
@@ -48,8 +51,7 @@ describe('Categories', function () {
             name: 'CategoryById',
         });
         const id = postResponse.body.id;
-
-        const getResponse = await request(app).get(`/categories/search/${id}`);
+        const getResponse = await request(app).get(`/categories/${id}`);
 
         expect(getResponse.status).toBe(200);
         expect(getResponse.body[0].name).toEqual(postResponse.body.name);
@@ -67,7 +69,7 @@ describe('Categories', function () {
             name: newName,
         });
 
-        const getResponse = await request(app).get(`/categories/search/${id}`);
+        const getResponse = await request(app).get(`/categories/${id}`);
 
         expect(putResponse.status).toBe(201);
         expect(getResponse.body[0].name).toEqual(newName);
@@ -80,7 +82,7 @@ describe('Categories', function () {
 
         const id = postResponse.body.id;
         const deleteResponse = await request(app).delete(`/categories/${id}`);
-        const getResponse = await request(app).get(`/categories/search/all`);
+        const getResponse = await request(app).get(`/categories`);
 
         expect(deleteResponse.status).toBe(200);
         expect(getResponse.body.length).toBe(0);

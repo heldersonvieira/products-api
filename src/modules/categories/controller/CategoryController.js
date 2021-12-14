@@ -3,6 +3,7 @@ import { categoriesRepository } from '../repositories/CategoriesRepository.js';
 class CategoryController {
     static async create(request, response) {
         const { name } = request.body;
+        
         const res = await categoriesRepository.create(name);
         return response.status(res.status).json(res.body);
     }
