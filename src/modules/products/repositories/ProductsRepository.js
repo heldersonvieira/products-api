@@ -53,10 +53,9 @@ class ProductsRepository {
     }
 
     async update({ id, name, description, price }) {
-        let response;
         try {
             const product = this.findById(id);
-            if (!product) await updateProduct({ id, name, description, price });
+            if (product) await updateProduct({ id, name, description, price });
             return {
                 status: 201,
                 body: { message: 'Updated product' },
@@ -73,7 +72,9 @@ class ProductsRepository {
 
     async findAll() {
         try {
-            const products = await selectAll('products');
+            const products = await this.repository.findAll({
+                tableName: 'products',
+            });
             return { status: 200, body: products };
         } catch (error) {
             return {
@@ -87,7 +88,11 @@ class ProductsRepository {
 
     async findById(id) {
         try {
-            const product = await selectById(id, 'products');
+            // const product = await selectById(id, 'products');
+            const product = await this.repository.findOneById({
+                id,
+                tableName: 'products',
+            });
             return { status: 200, body: product };
         } catch (error) {
             return {
@@ -99,16 +104,21 @@ class ProductsRepository {
 
     async delete(id) {
         try {
-            let message = 'Deleted product';
-            let status = 200;
-            const productStillExists = await deleteProduct(id);
+            const productExists = await this.repository.findOneById({
+                id,
+                tableName: 'products',
+            })
 
-            if (!productStillExists) {
-                status = 404;
-                message = 'Product does not exists';
+            if (!productExists) {
+                return { status: 404, body: { message: 'Product does not exists' }};
             }
 
-            return { status, body: { message } };
+            await this.repository.delete({
+                id,
+                tableName: 'products',
+            });
+
+            return { status: 200, body: { message: 'Deleted product' } };
         } catch (error) {
             return { status: 400, body: { message: 'Cannot delete product' } };
         }

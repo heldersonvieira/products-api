@@ -26,11 +26,7 @@ class CategoriesRepository {
             }
 
             const category = new Category({ name });
-            // Object.assign(category, { name });
-
             await this.repository.create(category);
-
-            // await createCategory(category);
 
             return { status: 201, body: category };
         } catch (error) {
@@ -49,7 +45,9 @@ class CategoriesRepository {
 
     async findAll() {
         try {
-            const categories = await selectAll('categories');
+            const categories = await this.repository.findAll({
+                tableName: 'categories',
+            });
             return { status: 200, body: categories };
         } catch (error) {
             return { status: 400, body: { message: 'Cannot list categories' } };
@@ -58,7 +56,10 @@ class CategoriesRepository {
 
     async findById(id) {
         try {
-            const category = await selectById(id, 'categories');
+            const category = await this.repository.findOneById({
+                id,
+                tableName: 'categories',
+            });
             return { status: 200, body: category };
         } catch (error) {
             return { status: 400, body: { message: 'Cannot list category' } };
@@ -67,24 +68,25 @@ class CategoriesRepository {
 
     async delete(id) {
         try {
-            let message = 'Deleted category';
-            const categoryStillExists = await deleteCategory(id);
+            const categoryExists = await this.repository.findOneById({
+                id,
+                tableName: 'categories',
+            });
 
-            if (!categoryStillExists) {
-                message = 'Category does not exists';
-                return { status: 404, body: { message } };
+            if (!categoryExists) {
+                return { status: 404, body: { message: 'Category does not exists' }};
             }
 
-            return { status: 200, body: { message } };
+            await this.repository.delete({
+                id,
+                tableName: 'categories',
+            });
+
+            return { status: 200, body: { message: 'Deleted category' } };
         } catch (error) {
             return { status: 400, body: { message: 'Cannot delete category' } };
         }
     }
-
-    // async findByName(name) {
-    //     const category = await selectCategoryByName(name);
-    //     return category;
-    // }
 }
 
 const categoriesRepository = new CategoriesRepository();

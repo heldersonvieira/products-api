@@ -30,4 +30,35 @@ export const database = {
         }
         return res;
     },
+
+    async findOneById({ id, tableName }) {
+        const { rows } = await client.query(
+            `SELECT * FROM ${schema}.${tableName} WHERE id = $1`,
+            [id]
+        );
+
+        return rows[0];
+    },
+
+    async findAll({ tableName }) {
+        const { rows } = await client.query(
+            `SELECT * FROM ${schema}.${tableName}`
+        );
+
+        return rows;
+    },
+
+    async delete({ id, tableName }) {
+        if (tableName === 'products') {
+            await client.query(
+                `DELETE FROM ${schema}.category_products WHERE product_id = $1`,
+                [id]
+            );
+        }
+
+        return await client.query(
+            `DELETE FROM ${schema}.${tableName} WHERE id = $1`,
+            [id]
+        );
+    },
 };
