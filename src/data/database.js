@@ -1,39 +1,33 @@
-import 'dotenv/config';
-import pkg from 'pg';
-const { Client } = pkg;
+import { Category } from '../modules/categories/model/Category.js';
+import { Product } from '../modules/products/model/Product.js';
+import { client, schema } from './client.js';
 
-let schema = process.env.SCHEMA;
+export const database = {
+    async create(data) {
+        let res;
+        if (data instanceof Category) {
+            const { id, name } = data;
+            res = await client.query(
+                `INSERT INTO ${schema}.categories (id, name) VALUES ($1, $2)`,
+                [id, name]
+            );
+        }
 
-const prodConfig = {
-    user: process.env.USER_PG,
-    host: process.env.HOST,
-    database: process.env.DATABASE,
-    password: process.env.PASSWORD,
-    port: process.env.PORT,
+        if (data instanceof Product) {
+            const { id, name, description, price, category_id } = data;
+            res = await client.query(
+                `INSERT INTO ${schema}.products 
+                (id, name, description, price, category_id) 
+                VALUES ($1, $2, $3, $4, $5)`,
+                [id, name, description, price, category_id]
+            );
+
+            await client.query(
+                `INSERT INTO ${schema}.category_products 
+                (category_id, product_id) VALUES ($1, $2)`,
+                [category_id, id]
+            );
+        }
+        return res;
+    },
 };
-
-const testConfig = {
-    user: process.env.USER_PG_TEST,
-    host: process.env.HOST_TEST,
-    database: process.env.DATABASE_TEST,
-    password: process.env.PASSWORD_TEST,
-    port: process.env.PORT_TEST,
-};
-
-let database = new Client(prodConfig);
-
-database.connect();
-
-if (process.env.NODE_ENV === 'test') {
-    schema = process.env.SCHEMA_TEST;
-
-    database.end();
-    database = new Client(testConfig);
-    database.connect();
-};
-
-if (!database) {
-    database.connect();
-}
-
-export { database, schema };

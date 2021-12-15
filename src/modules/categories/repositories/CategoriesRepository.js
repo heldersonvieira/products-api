@@ -1,3 +1,5 @@
+import { client } from '../../../data/client.js';
+import { database } from '../../../data/database.js';
 import {
     createCategory,
     selectAll,
@@ -9,6 +11,10 @@ import {
 import { Category } from '../model/Category.js';
 
 class CategoriesRepository {
+    constructor() {
+        this.repository = database;
+    }
+
     async create(name) {
         try {
             const categoryAlreadyExists = await selectCategoryByName(name);
@@ -19,10 +25,12 @@ class CategoriesRepository {
                 };
             }
 
-            const category = new Category();
-            Object.assign(category, { name });
+            const category = new Category({ name });
+            // Object.assign(category, { name });
 
-            await createCategory(category);
+            await this.repository.create(category);
+
+            // await createCategory(category);
 
             return { status: 201, body: category };
         } catch (error) {

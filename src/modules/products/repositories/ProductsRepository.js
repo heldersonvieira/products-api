@@ -7,14 +7,20 @@ import {
     updateProduct,
     deleteProduct,
 } from '../infra/queries/index.js';
+import { database } from '../../../data/database.js';
 
 class ProductsRepository {
+    constructor() {
+        this.repository = database;
+    }
+
     async create({ name, description, price, category_name }) {
         try {
-            const res = await categoriesRepository.findAll();
-            const categories = res.body;
-            
-            const categoryExists = categories.find(category => category.name === category_name);
+            const { body: categories } = await categoriesRepository.findAll();
+            const categoryExists = categories.find(
+                (category) => category.name === category_name
+            );
+
             if (!categoryExists) {
                 return {
                     status: 404,
@@ -24,15 +30,15 @@ class ProductsRepository {
                 };
             }
 
-            const product = new Product();
-            Object.assign(product, {
+            const product = new Product({
                 name,
                 description,
                 price,
                 category_id: categoryExists.id,
             });
 
-            await createProduct(product);
+            await this.repository.create(product);
+            // await createProduct(product);
 
             return {
                 status: 201,
@@ -47,11 +53,10 @@ class ProductsRepository {
     }
 
     async update({ id, name, description, price }) {
-        let response
+        let response;
         try {
             const product = this.findById(id);
-            if (!product) 
-            await updateProduct({ id, name, description, price });
+            if (!product) await updateProduct({ id, name, description, price });
             return {
                 status: 201,
                 body: { message: 'Updated product' },
