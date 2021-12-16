@@ -54,8 +54,14 @@ class ProductsRepository {
 
     async update({ id, name, description, price }) {
         try {
-            const product = this.findById(id);
-            if (product) await updateProduct({ id, name, description, price });
+            const product = await this.repository.findOneById({
+                id,
+                tableName: 'products',
+            });
+
+            Object.assign(product, { id, name, description, price });
+            if (product) await this.repository.update(product);
+
             return {
                 status: 201,
                 body: { message: 'Updated product' },
@@ -88,7 +94,6 @@ class ProductsRepository {
 
     async findById(id) {
         try {
-            // const product = await selectById(id, 'products');
             const product = await this.repository.findOneById({
                 id,
                 tableName: 'products',
@@ -107,10 +112,13 @@ class ProductsRepository {
             const productExists = await this.repository.findOneById({
                 id,
                 tableName: 'products',
-            })
+            });
 
             if (!productExists) {
-                return { status: 404, body: { message: 'Product does not exists' }};
+                return {
+                    status: 404,
+                    body: { message: 'Product does not exists' },
+                };
             }
 
             await this.repository.delete({

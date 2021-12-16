@@ -31,6 +31,35 @@ export const database = {
         return res;
     },
 
+    async update(data) {
+        let res;
+
+        if (data.price) {
+            const { id, name, description, price } = data;
+            console.log('produto');
+            console.log(data);
+            res = await client.query(
+                `UPDATE ${schema}.products 
+                    SET 
+                    name = $1,
+                    description = $2,
+                    price = $3,
+                    updated_at = now()
+                    WHERE id = $4`,
+                [name, description, price, id]
+            );
+        } else {
+            console.log(data);
+            const { id, name } = data;
+            res = await client.query(
+                `UPDATE ${schema}.categories SET name = $1 WHERE id = $2`,
+                [name, id]
+            );
+        }
+
+        return res;
+    },
+
     async findOneById({ id, tableName }) {
         const { rows } = await client.query(
             `SELECT * FROM ${schema}.${tableName} WHERE id = $1`,

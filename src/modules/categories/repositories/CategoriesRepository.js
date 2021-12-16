@@ -36,7 +36,14 @@ class CategoriesRepository {
 
     async update({ id, name }) {
         try {
-            await updateCategory({ id, name });
+            const category = await this.repository.findOneById({
+                id,
+                tableName: 'categories',
+            });
+            
+            Object.assign(category, { name });
+            await this.repository.update(category)
+
             return { status: 201, body: { message: 'Updated category' } };
         } catch (error) {
             return { status: 400, body: { message: 'Cannot update category' } };
@@ -74,7 +81,10 @@ class CategoriesRepository {
             });
 
             if (!categoryExists) {
-                return { status: 404, body: { message: 'Category does not exists' }};
+                return {
+                    status: 404,
+                    body: { message: 'Category does not exists' },
+                };
             }
 
             await this.repository.delete({
