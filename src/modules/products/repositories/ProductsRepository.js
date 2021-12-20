@@ -1,12 +1,5 @@
 import { categoriesRepository } from '../../categories/repositories/CategoriesRepository.js';
 import { Product } from '../../products/model/Product.js';
-import {
-    createProduct,
-    selectAll,
-    selectById,
-    updateProduct,
-    deleteProduct,
-} from '../infra/queries/index.js';
 import { database } from '../../../data/database.js';
 
 class ProductsRepository {
@@ -38,7 +31,6 @@ class ProductsRepository {
             });
 
             await this.repository.create(product);
-            // await createProduct(product);
 
             return {
                 status: 201,

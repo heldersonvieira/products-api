@@ -39,80 +39,80 @@ describe('Products', function () {
         expect(postRes.body).toHaveProperty('id');
     });
 
-    // it('should not be able to create a product with category non-existent', async () => {
-    //     const postRes = await request(app).post('/products').send({
-    //         name: 'Nike Shoes for Man',
-    //         description: 'Nike Shoes',
-    //         price: 199.99,
-    //         category_name: 'nonexistent',
-    //     });
+    it('should not be able to create a product with category non-existent', async () => {
+        const postRes = await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: 'nonexistent',
+        });
 
-    //     expect(postRes.status).toBe(404);
-    //     expect(postRes.body.message).toBeTruthy();
-    // });
+        expect(postRes.status).toBe(404);
+        expect(postRes.body.message).toBeTruthy();
+    });
 
-    // it('should be able to update a product', async () => {
-    //     const postRes = await request(app).post('/products').send({
-    //         name: 'Nike Shoes for Man',
-    //         description: 'Nike Shoes',
-    //         price: 199.99,
-    //         category_name: category.name,
-    //     });
+    it('should be able to update a product', async () => {
+        const postRes = await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: category.name,
+        });
 
-    //     const id = postRes.body.id;
+        const id = postRes.body.id;
 
-    //     const putRes = await request(app).put(`/products/${id}`).send({
-    //         name: 'Nike Shoes for Man',
-    //         description: 'Nike Shoes',
-    //         price: 500.0,
-    //     });
+        const putRes = await request(app).put(`/products/${id}`).send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 500.00,
+        });
 
-    //     expect(putRes.status).toBe(201);
-    //     expect(putRes.body.message).toBe('Updated product');
-    // });
+        expect(putRes.status).toBe(201);
+        expect(putRes.body.message).toBe('Updated product');
+    });
 
-    // it('should be able to list all products', async () => {
-    //     await request(app).post('/products').send({
-    //         name: 'Nike Shoes for Man',
-    //         description: 'Nike Shoes',
-    //         price: 199.99,
-    //         category_name: category.name,
-    //     });
+    it('should be able to list all products', async () => {
+        await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: category.name,
+        });
 
-    //     const getRes = await request(app).get('/products');
+        const getRes = await request(app).get('/products');
 
-    //     expect(getRes.status).toBe(200);
-    //     expect(getRes.body.length).toBe(1);
-    // });
+        expect(getRes.status).toBe(200);
+        expect(getRes.body.length).toBe(1);
+    });
 
-    // it('should be able to delete a product', async () => {
-    //     const postRes = await request(app).post('/products').send({
-    //         name: 'Nike Shoes for Man',
-    //         description: 'Nike Shoes',
-    //         price: 199.99,
-    //         category_name: category.name,
-    //     });
+    it('should be able to delete a product', async () => {
+        const postRes = await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: category.name,
+        });
 
-    //     const id = postRes.body.id;
-    //     const deleteRes = await request(app).delete(`/products/${id}`);
-    //     const getRes = await request(app).get(`/products`);
+        const id = postRes.body.id;
+        const deleteRes = await request(app).delete(`/products/${id}`);
+        const getRes = await request(app).get(`/products`);
 
-    //     expect(deleteRes.status).toBe(200);
-    //     expect(getRes.body.length).toBe(0);
-    // });
+        expect(deleteRes.status).toBe(200);
+        expect(getRes.body.length).toBe(0);
+    });
 
-    // it('should be able to find product by id', async () => {
-    //     const postRes = await request(app).post('/products').send({
-    //         name: 'Nike Shoes for Man',
-    //         description: 'Nike Shoes',
-    //         price: 199.99,
-    //         category_name: category.name,
-    //     });
+    it('should be able to find product by id', async () => {
+        const postRes = await request(app).post('/products').send({
+            name: 'Nike Shoes for Man',
+            description: 'Nike Shoes',
+            price: 199.99,
+            category_name: category.name,
+        });
 
-    //     const id = postRes.body.id;
-    //     const getRes = await request(app).get(`/products/${id}`);
+        const id = postRes.body.id;
+        const getRes = await request(app).get(`/products/${id}`);
 
-    //     expect(getRes.status).toBe(200);
-    //     expect(getRes.body[0].id).toEqual(id);
-    // });
+        expect(getRes.status).toBe(200);
+        expect(getRes.body.id).toEqual(id);
+    });
 });

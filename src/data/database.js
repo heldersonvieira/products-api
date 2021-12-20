@@ -36,8 +36,6 @@ export const database = {
 
         if (data.price) {
             const { id, name, description, price } = data;
-            console.log('produto');
-            console.log(data);
             res = await client.query(
                 `UPDATE ${schema}.products 
                     SET 
@@ -49,7 +47,6 @@ export const database = {
                 [name, description, price, id]
             );
         } else {
-            console.log(data);
             const { id, name } = data;
             res = await client.query(
                 `UPDATE ${schema}.categories SET name = $1 WHERE id = $2`,
@@ -69,10 +66,22 @@ export const database = {
         return rows[0];
     },
 
-    async findAll({ tableName }) {
-        const { rows } = await client.query(
-            `SELECT * FROM ${schema}.${tableName}`
-        );
+    async findAll(data) {
+        const { page, limit, tableName } = data;
+        
+        console.log('PAGE', page);
+        // let { rows: total } = await client.query(`
+        //     SELECT COUNT(*) FROM ${schema}.${tableName}
+        // `);
+
+        const offset = (page - 1) * limit;
+        console.log(jump);
+
+        const { rows } = await client.query(`
+            SELECT * FROM ${schema}.${tableName} 
+            OFFSET ${offset} 
+            LIMIT ${limit}
+        `);
 
         return rows;
     },
@@ -89,5 +98,14 @@ export const database = {
             `DELETE FROM ${schema}.${tableName} WHERE id = $1`,
             [id]
         );
+    },
+
+    async findByName({ name, tableName }) {
+        const { rows } = await client.query(
+            `SELECT * FROM ${schema}.${tableName} WHERE name = $1`,
+            [name]
+        );
+
+        return rows[0];
     },
 };
