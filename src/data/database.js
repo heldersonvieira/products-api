@@ -71,13 +71,6 @@ export const database = {
         const { rows } = await client.query(`
             SELECT * FROM ${schema}.${tableName} 
         `);
-        // const offset = (page - 1) * limit;
-
-        // const { rows } = await client.query(`
-        //     SELECT * FROM ${schema}.${tableName}
-        //     OFFSET ${offset}
-        //     LIMIT ${limit}
-        // `);
 
         return rows;
     },
