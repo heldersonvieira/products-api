@@ -67,21 +67,17 @@ export const database = {
     },
 
     async findAll(data) {
-        const { page, limit, tableName } = data;
-        
-        console.log('PAGE', page);
-        // let { rows: total } = await client.query(`
-        //     SELECT COUNT(*) FROM ${schema}.${tableName}
-        // `);
-
-        const offset = (page - 1) * limit;
-        console.log(jump);
-
+        const { tableName } = data;
         const { rows } = await client.query(`
             SELECT * FROM ${schema}.${tableName} 
-            OFFSET ${offset} 
-            LIMIT ${limit}
         `);
+        // const offset = (page - 1) * limit;
+
+        // const { rows } = await client.query(`
+        //     SELECT * FROM ${schema}.${tableName}
+        //     OFFSET ${offset}
+        //     LIMIT ${limit}
+        // `);
 
         return rows;
     },

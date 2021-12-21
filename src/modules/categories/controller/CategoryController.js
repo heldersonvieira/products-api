@@ -15,7 +15,7 @@ class CategoryController {
     }
 
     static async findAll(request, response) {
-        const res = await categoriesRepository.findAll(request.query);
+        const res = await categoriesRepository.findAll(request);
         return response.status(res.status).json(res.body);
     }
 

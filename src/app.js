@@ -1,5 +1,4 @@
 import express from 'express';
-import { AppErros } from './errors/messages.js';
 import { router } from './routes/index.js';
 
 const app = express();

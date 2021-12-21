@@ -1,11 +1,12 @@
 import express from 'express';
 import { ProductController } from '../modules/products/controller/ProductController.js';
+import { paginate } from '../shared/middlewares/paginate.js';
 
 const productsRoutes = express.Router();
 
 productsRoutes.post('/', ProductController.create);
 
-productsRoutes.get('/', ProductController.findAll);
+productsRoutes.get('/', paginate('products'), ProductController.findAll);
 
 productsRoutes.get('/:id', ProductController.findById);
 

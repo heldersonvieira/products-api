@@ -1,5 +1,4 @@
 import { database } from '../../../data/database.js';
-import { AppErros } from '../../../errors/messages.js';
 import { Category } from '../model/Category.js';
 
 class CategoriesRepository {
@@ -46,12 +45,9 @@ class CategoriesRepository {
         }
     }
 
-    async findAll({ page = '' }) {
-        // if (page == 0) page = 1;
+    async findAll() {
         try {
             const categories = await this.repository.findAll({
-                page,
-                limit: 2,
                 tableName: 'categories',
             });
             return { status: 200, body: categories };
@@ -101,7 +97,6 @@ class CategoriesRepository {
 const categoriesRepository = new CategoriesRepository();
 
 export { categoriesRepository };
-
 
 /**
 [
