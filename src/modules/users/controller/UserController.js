@@ -41,7 +41,7 @@ class UserController {
     static async authenticate(request, response) {
         const { cpf, password } = request.body;
         const res = await AuthenticationUser.authenticate({ cpf, password });
-        console.log(res.body);
+
         return response.status(res.status).json(res.body);
     }
 }

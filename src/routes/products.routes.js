@@ -1,8 +1,11 @@
 import express from 'express';
 import { ProductController } from '../modules/products/controller/ProductController.js';
+import { ensureAuthenticated } from '../shared/middlewares/ensureAuthenticated.js';
 import { paginate } from '../shared/middlewares/paginate.js';
 
 const productsRoutes = express.Router();
+
+productsRoutes.use(ensureAuthenticated);
 
 productsRoutes.post('/', ProductController.create);
 

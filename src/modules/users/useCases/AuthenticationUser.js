@@ -11,10 +11,6 @@ class AuthenticationUser {
         const user = await usersRepository.findByCpf({ cpf });
         if (!user) {
             throw new AppError('Usuário não existe');
-            // return {
-            //     status: 400,
-            //     body: { message: 'User does not exists' },
-            // };
         }
         // senha esta correta?
         const passwordMatch = await compare(password, user.password);
