@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import pkg from 'pg';
+import { createUserAdmin } from './seed/admin.js';
 const { Client } = pkg;
 
 let schema = process.env.SCHEMA;
@@ -22,6 +23,7 @@ const testConfig = {
 
 let client = new Client(productionConfig);
 client.connect();
+createUserAdmin();
 
 if (process.env.NODE_ENV === 'test') {
     schema = process.env.SCHEMA_TEST;

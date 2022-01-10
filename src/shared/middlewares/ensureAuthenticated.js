@@ -12,7 +12,7 @@ export const ensureAuthenticated = async (request, response, next) => {
     try {
         const { sub: user_id } = verify(
             token,
-            '29914c0bae531750646ca80bdd48a693'
+            '29914c0bae531750646ca80bdd48a693'  // md5 gerado no link: https://www.md5hashgenerator.com/
         );
 
         const user = await usersRepository.findById({ user_id });
