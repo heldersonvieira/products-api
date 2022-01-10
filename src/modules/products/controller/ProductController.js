@@ -25,7 +25,6 @@ class ProductController {
     }
 
     static async findAll(request, response) {
-        const { page, limit } = request.query;
         const res = await productsRepository.findAll();
         return response.status(res.status).json(res.body);
     }

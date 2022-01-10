@@ -1,57 +1,58 @@
-## rotas
-
-> O usuário deverá ser capaz de criar, ler, editar e remover produtos.
+## [x] O usuário deverá ser capaz de criar, ler, editar e remover produtos.
 [x] POST
 [x] GET
 [x] PUT
 [x] DELETE
 
-> O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
+## [x] O usuário deverá ser capaz de criar, ler, editar e remover categorias.  
 [x] POST
 [x] GET
 [x] PUT
 [x] DELETE
 
-> A consulta de produtos deverá ser capaz de retornar um produto especifico ou todos.
+## [x] A consulta de produtos deverá ser capaz de retornar um produto especifico ou todos.
 Criado duas rotas que retornam os produtos. 
-[x] /products/search/:id (retorna um produto)
-[x] /products/search/all (retorna todos os produtos)
+[x] /products/:id (retorna um produto)
+[x] /products (retorna todos os produtos)
 
-> A consulta de categoria deverá ser capaz de retornar uma categoria especifica ou todas.
+## [x] A consulta de categoria deverá ser capaz de retornar uma categoria especifica ou todas.
 Criado duas rotas que retornam os produtos. 
-[x] /categories/search/:id (retorna uma)
-[x] /categories/search/all (retorna todas as categorias)
+[x] /categories/:id (retorna uma)
+[x] /categories (retorna todas as categorias)
 
+## [] só será possível excluir um produto ou categoria se o usuário for adminitrador
+[] products
+[] categories
 
-## integração com postgres
+## [x] aplicar autenticação jwt
+## [x] rotas autenticadas
 
+## [] validar cpf
+
+## [x] integração com postgres
 [x] Um produto deverá ser relacionado a uma categoria.
 [x] Uma categoria deverá ser relacionada a um ou mais produtos.
 
+### paginação
+[x] As consultas devem retornar no máximo 10 itens por requisição.
 
-[] As consultas devem retornar no máximo 10 itens por requisição.
 
-
-## tratar erros
-
-[] feito
-
+## [x] tratar erros
 
 ## testes
-
-> products
+### products
 [x] create
 [x] list
 [x] update
 [x] delete
 
-> categories
+### categories
 [x] create
 [x] list
 [x] update
 [x] delete
 
-## Exemplos
+## exemplos
 
 {
 	"name": "Nike Shoes for Man",

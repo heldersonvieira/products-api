@@ -1,5 +1,6 @@
 import { Category } from '../modules/categories/model/Category.js';
 import { Product } from '../modules/products/model/Product.js';
+import { User } from '../modules/users/model/User.js';
 import { client, schema } from './client.js';
 
 export const database = {
@@ -28,6 +29,17 @@ export const database = {
                 [category_id, id]
             );
         }
+
+        if (data instanceof User) {
+            const { id, cpf, name, password, email, isAdmin } = data;
+            res = await client.query(
+                `INSERT INTO ${schema}.users 
+                (id, cpf, name, password, email, is_admin) 
+                VALUES ($1, $2, $3, $4, $5, $6)`,
+                [id, cpf, name, password, email, isAdmin]
+            );
+        }
+
         return res;
     },
 
@@ -93,6 +105,14 @@ export const database = {
         const { rows } = await client.query(
             `SELECT * FROM ${schema}.${tableName} WHERE name = $1`,
             [name]
+        );
+
+        return rows[0];
+    },
+
+    async findByCpf({ cpf }) {
+        const { rows } = await client.query(
+            `SELECT * FROM ${schema}.users WHERE cpf = '${cpf}'`
         );
 
         return rows[0];

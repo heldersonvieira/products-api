@@ -1,4 +1,5 @@
 import { database } from '../../../data/database.js';
+import { AppError } from '../../../shared/errors/AppError.js';
 import { Category } from '../model/Category.js';
 
 class CategoriesRepository {
@@ -14,10 +15,7 @@ class CategoriesRepository {
             });
 
             if (categoryAlreadyExists) {
-                return {
-                    status: 204,
-                    body: { message: 'Category already exists' },
-                };
+                throw new AppError('Category already exists', 204);
             }
 
             const category = new Category({ name });
@@ -25,7 +23,7 @@ class CategoriesRepository {
 
             return { status: 201, body: category };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot create category' } };
+            throw new AppError('CAnnot create category');
         }
     }
 
@@ -41,7 +39,7 @@ class CategoriesRepository {
 
             return { status: 201, body: { message: 'Updated category' } };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot update category' } };
+            throw new AppError('Cannot update category');
         }
     }
 
@@ -52,7 +50,7 @@ class CategoriesRepository {
             });
             return { status: 200, body: categories };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot list categories' } };
+            throw new AppError('Cannot list categories');
         }
     }
 
@@ -64,7 +62,7 @@ class CategoriesRepository {
             });
             return { status: 200, body: category };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot list category' } };
+            throw new AppError('Cannot list category');
         }
     }
 
@@ -76,10 +74,7 @@ class CategoriesRepository {
             });
 
             if (!categoryExists) {
-                return {
-                    status: 404,
-                    body: { message: 'Category does not exists' },
-                };
+                throw new AppError('Category does not exists', 404);
             }
 
             await this.repository.delete({
@@ -89,7 +84,7 @@ class CategoriesRepository {
 
             return { status: 200, body: { message: 'Deleted category' } };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot delete category' } };
+            throw new AppError('Cannot delete category');
         }
     }
 }

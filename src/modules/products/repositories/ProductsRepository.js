@@ -1,6 +1,7 @@
 import { categoriesRepository } from '../../categories/repositories/CategoriesRepository.js';
 import { Product } from '../../products/model/Product.js';
 import { database } from '../../../data/database.js';
+import { AppError } from '../../../shared/errors/AppError.js';
 
 class ProductsRepository {
     constructor() {
@@ -8,21 +9,12 @@ class ProductsRepository {
     }
 
     async create({ name, description, price, category_name }) {
+        const { body: categories } = await categoriesRepository.findAll();
+        const categoryExists = categories.find(
+            (category) => category.name === category_name
+        );
+
         try {
-            const { body: categories } = await categoriesRepository.findAll();
-            const categoryExists = categories.find(
-                (category) => category.name === category_name
-            );
-
-            if (!categoryExists) {
-                return {
-                    status: 404,
-                    body: {
-                        message: `Category does not exists. First add the category ${category_name}`,
-                    },
-                };
-            }
-
             const product = new Product({
                 name,
                 description,
@@ -37,10 +29,14 @@ class ProductsRepository {
                 body: product,
             };
         } catch (error) {
-            return {
-                status: 400,
-                body: { message: 'Product cannot be created' },
-            };
+            if (!categoryExists) {
+                throw new AppError(
+                    `Category does not exists. First add the category ${category_name}`,
+                    404
+                );
+            }
+
+            throw new AppError('Product cannot be created');
         }
     }
 
@@ -59,12 +55,7 @@ class ProductsRepository {
                 body: { message: 'Updated product' },
             };
         } catch (error) {
-            return {
-                status: 400,
-                body: {
-                    message: `Product cannot be updated, try again later.`,
-                },
-            };
+            throw new AppError(`Product cannot be updated, try again later.`);
         }
     }
 
@@ -75,12 +66,7 @@ class ProductsRepository {
             });
             return { status: 200, body: products };
         } catch (error) {
-            return {
-                status: 400,
-                body: {
-                    message: 'Cannot list products',
-                },
-            };
+            throw new AppError('Cannot list products');
         }
     }
 
@@ -92,10 +78,7 @@ class ProductsRepository {
             });
             return { status: 200, body: product };
         } catch (error) {
-            return {
-                status: 400,
-                body: { message: 'Cannot list product' },
-            };
+            throw new AppError('Cannot list product');
         }
     }
 
@@ -107,10 +90,7 @@ class ProductsRepository {
             });
 
             if (!productExists) {
-                return {
-                    status: 404,
-                    body: { message: 'Product does not exists' },
-                };
+                throw new AppError('Product does not exists', 404);
             }
 
             await this.repository.delete({
@@ -120,7 +100,7 @@ class ProductsRepository {
 
             return { status: 200, body: { message: 'Deleted product' } };
         } catch (error) {
-            return { status: 400, body: { message: 'Cannot delete product' } };
+            throw new AppError('Cannot delete product');
         }
     }
 }
