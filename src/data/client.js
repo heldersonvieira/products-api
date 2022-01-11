@@ -23,7 +23,6 @@ const testConfig = {
 
 let client = new Client(productionConfig);
 client.connect();
-createUserAdmin();
 
 if (process.env.NODE_ENV === 'test') {
     schema = process.env.SCHEMA_TEST;
@@ -36,5 +35,7 @@ if (process.env.NODE_ENV === 'test') {
 if (!client) {
     client.connect();
 }
+
+createUserAdmin();
 
 export { client, schema };

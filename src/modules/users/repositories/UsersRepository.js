@@ -8,7 +8,7 @@ class UsersRepository {
         this.repository = database;
     }
 
-    async create({ name, cpf, password, email, isAdmin }) {
+    async create({ name, cpf, password, email, is_admin }) {
         try {
             const passwordHash = await encryptPassword(password);
             const user = new User({
@@ -16,7 +16,7 @@ class UsersRepository {
                 cpf,
                 password: passwordHash,
                 email,
-                isAdmin,
+                is_admin,
             });
             await this.repository.create(user);
 
@@ -26,13 +26,13 @@ class UsersRepository {
         }
     }
 
-    async update({ id, name, cpf, email, isAdmin }) {
+    async update({ id, name, cpf, email, is_admin }) {
         const user = this.users.find((user) => user.id === id);
         Object.assign(user, {
             name,
             cpf,
             email,
-            isAdmin,
+            is_admin,
         });
         return user;
     }

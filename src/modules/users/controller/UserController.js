@@ -4,14 +4,14 @@ import { AuthenticationUser } from '../useCases/AuthenticationUser.js';
 
 class UserController {
     static async create(request, response) {
-        const { name, cpf, password, email, isAdmin, avatar } = request.body;
+        const { name, cpf, password, email, is_admin, avatar } = request.body;
         const res = await usersRepository.create({
             name,
             cpf,
             password,
             email,
             avatar,
-            isAdmin,
+            is_admin,
         });
 
         return response.status(res.status).json(res.body);
@@ -19,13 +19,13 @@ class UserController {
 
     static async update(request, response) {
         const { id } = request.params;
-        const { name, cpf, email, isAdmin } = request.body;
+        const { name, cpf, email, is_admin } = request.body;
         const res = await usersRespositoryInMemory.update({
             id,
             name,
             cpf,
             email,
-            isAdmin,
+            is_admin,
         });
 
         return response.status(201).json(res);

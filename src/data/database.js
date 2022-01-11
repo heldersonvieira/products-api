@@ -31,12 +31,12 @@ export const database = {
         }
 
         if (data instanceof User) {
-            const { id, cpf, name, password, email, isAdmin } = data;
+            const { id, cpf, name, password, email, is_admin } = data;
             res = await client.query(
                 `INSERT INTO ${schema}.users 
                 (id, cpf, name, password, email, is_admin) 
                 VALUES ($1, $2, $3, $4, $5, $6)`,
-                [id, cpf, name, password, email, isAdmin]
+                [id, cpf, name, password, email, is_admin]
             );
         }
 

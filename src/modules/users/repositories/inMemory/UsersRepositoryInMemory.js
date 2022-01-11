@@ -6,13 +6,13 @@ class UsersRepositoryInMemory {
         this.users = [];
     }
 
-    async create({ name, cpf, password, email, isAdmin }) {
+    async create({ name, cpf, password, email, is_admin }) {
         const user = new User({
             name,
             cpf,
             password: await encryptPassword(password),
             email,
-            isAdmin,
+            is_admin,
         });
 
         this.users.push(user);
@@ -20,13 +20,13 @@ class UsersRepositoryInMemory {
         return user;
     }
 
-    async update({ id, name, cpf, email, isAdmin }) {
+    async update({ id, name, cpf, email, is_admin }) {
         const user = this.users.find((user) => user.id === id);
         Object.assign(user, {
             name,
             cpf,
             email,
-            isAdmin,
+            is_admin,
         });
         return user;
     }
