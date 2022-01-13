@@ -34,3 +34,12 @@ create table products_api.users (
   is_admin boolean not null,
   created_at timestamp default now()
 )
+
+create table products_api.users_refresh_tokens (
+  id uuid primary key,
+  refresh_token varchar not null,
+  user_id uuid not null,
+  expires_date timestamp,
+  created_at timestamp default now(),
+  foreign key (user_id) references products_api.users (id)
+)

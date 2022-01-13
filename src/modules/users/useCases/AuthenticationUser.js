@@ -10,7 +10,7 @@ class AuthenticationUser {
         // usuario existe?
         const user = await usersRepository.findByCpf({ cpf });
         if (!user) {
-            throw new AppError('Usuário não existe');
+            throw new AppError('User does not exists');
         }
         // senha esta correta?
         const passwordMatch = await compare(password, user.password);
@@ -37,9 +37,7 @@ class AuthenticationUser {
 
         return {
             status: 201,
-            body: {
-                tokenReturn,
-            }
+            body: tokenReturn
         };
     }
 }

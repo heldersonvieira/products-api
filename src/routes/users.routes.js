@@ -5,14 +5,12 @@ import { ensureAuthenticated } from "../shared/middlewares/ensureAuthenticated.j
 
 const usersRoutes = express.Router();
 
-usersRoutes.use(ensureAuthenticated);
-
-usersRoutes.post('/', ensureAdmin, UserController.create);
+usersRoutes.post('/', ensureAuthenticated, ensureAdmin, UserController.create);
 
 usersRoutes.post('/sessions', UserController.authenticate);
 
-usersRoutes.put('/:id', UserController.update);
+usersRoutes.put('/:id', ensureAdmin, ensureAuthenticated, UserController.update);
 
-usersRoutes.get('/', UserController.findByCpf);
+usersRoutes.get('/', ensureAuthenticated, UserController.findByCpf);
 
 export { usersRoutes };
