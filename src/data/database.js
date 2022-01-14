@@ -40,17 +40,17 @@ export const database = {
                 [id, cpf, name, password, email, is_admin]
             );
         }
-
+        
         if (data instanceof UsersRefreshTokens) {
+            console.log(data);
             const { id, refresh_token, user_id, expires_date } = data;
             res = await client.query(
-                `INSERT INTO ${schema}.users_refres_tokens
+                `INSERT INTO ${schema}.users_refresh_tokens
                 (id, refresh_token, user_id, expires_date)
                 VALUES ($1, $2, $3, $4)`,
                 [id, refresh_token, user_id, expires_date]
             );
         }
-
         return res;
     },
 

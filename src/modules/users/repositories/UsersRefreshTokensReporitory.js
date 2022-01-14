@@ -14,6 +14,7 @@ class UsersRefreshTokensReporitory {
                 user_id,
                 expires_date,
             });
+
             await this.repository.create(userRefreshToken);
 
             return { status: 201, body: userRefreshToken };
