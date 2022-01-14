@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'test') {
     client.end();
     client = new Client(testConfig);
     client.connect();
-};
+}
 
 if (!client) {
     client.connect();

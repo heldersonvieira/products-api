@@ -1,6 +1,6 @@
 import { usersRespositoryInMemory } from '../repositories/inMemory/UsersRepositoryInMemory.js';
 import { usersRepository } from '../repositories/UsersRepository.js';
-import { AuthenticationUser } from '../useCases/AuthenticationUser.js';
+import { AuthUser } from '../useCases/AuthUser.js';
 
 class UserController {
     static async create(request, response) {
@@ -40,7 +40,7 @@ class UserController {
 
     static async authenticate(request, response) {
         const { cpf, password } = request.body;
-        const res = await AuthenticationUser.authenticate({ cpf, password });
+        const res = await AuthUser.authenticate({ cpf, password });
 
         return response.status(res.status).json(res.body);
     }
