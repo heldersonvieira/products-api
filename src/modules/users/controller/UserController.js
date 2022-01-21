@@ -1,6 +1,6 @@
-import { usersRespositoryInMemory } from '../repositories/inMemory/UsersRepositoryInMemory.js';
 import { usersRepository } from '../repositories/UsersRepository.js';
 import { AuthUser } from '../useCases/AuthUser.js';
+import { RefreshToken } from '../useCases/RefreshToken.js';
 
 class UserController {
     static async create(request, response) {
@@ -20,7 +20,7 @@ class UserController {
     static async update(request, response) {
         const { id } = request.params;
         const { name, cpf, email, is_admin } = request.body;
-        const res = await usersRespositoryInMemory.update({
+        const res = await usersRepository.update({
             id,
             name,
             cpf,
@@ -33,7 +33,7 @@ class UserController {
 
     static async findByCpf(request, response) {
         const { cpf } = request.body;
-        const res = await usersRespositoryInMemory.findByCpf({ cpf });
+        const res = await usersRepository.findByCpf({ cpf });
 
         return response.json(res);
     }
@@ -43,6 +43,16 @@ class UserController {
         const res = await AuthUser.authenticate({ cpf, password });
 
         return response.status(res.status).json(res.body);
+    }
+
+    static async refreshToken(request, response) {
+        const refreshToken =
+            request.body.token ||
+            request.headers['x-access-token'] ||
+            request.query.token;
+
+        const res = await RefreshToken.request(refreshToken);
+        return response.json(res);
     }
 }
 

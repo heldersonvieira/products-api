@@ -32,8 +32,8 @@ class UsersRepositoryInMemory {
     }
 
     async findByCpf({ cpf }) {
+        console.log(cpf);
         const user = this.users.find((user) => user.cpf === String(cpf));
-
         return user;
     }
 }

@@ -2,7 +2,7 @@ import { database } from '../../../data/database.js';
 import { AppError } from '../../../shared/errors/AppError.js';
 import { UsersRefreshTokens } from '../model/UsersRefreshTokens.js';
 
-class UsersRefreshTokensReporitory {
+class UsersRefreshTokensRepository {
     constructor() {
         this.repository = database;
     }
@@ -22,8 +22,23 @@ class UsersRefreshTokensReporitory {
             throw new AppError('Refresh token cannot be created');
         }
     }
+
+    async findByUserIdAndRefreshToken({ user_id, refreshToken }) {
+        return await this.repository.findByUserIdAndRefreshToken({
+            user_id,
+            refreshToken,
+            tableName: 'users_refresh_tokens',
+        });
+    }
+
+    async delete(id) {
+        return await this.repository.delete({
+            id,
+            tableName: 'users_refresh_tokens',
+        });
+    }
 }
 
-const usersRefreshTokensReporitory = new UsersRefreshTokensReporitory();
+const usersRefreshTokensRepository = new UsersRefreshTokensRepository();
 
-export { usersRefreshTokensReporitory };
+export { usersRefreshTokensRepository };

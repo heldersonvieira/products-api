@@ -40,9 +40,8 @@ export const database = {
                 [id, cpf, name, password, email, is_admin]
             );
         }
-        
+
         if (data instanceof UsersRefreshTokens) {
-            console.log(data);
             const { id, refresh_token, user_id, expires_date } = data;
             res = await client.query(
                 `INSERT INTO ${schema}.users_refresh_tokens
@@ -87,6 +86,18 @@ export const database = {
         );
 
         return rows[0];
+    },
+
+    async findByUserIdAndRefreshToken(data) {
+        const { user_id, refreshToken, tableName } = data;
+        console.log(user_id, token);
+        const { rows } = await client.query(
+            `SELECT * FROM ${schema}.${tableName} 
+            WHERE id = $1 AND refresh_token = $2`,
+            [user_id, refreshToken]
+        );
+
+        return rows;
     },
 
     async findAll(data) {

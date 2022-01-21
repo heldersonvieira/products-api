@@ -3,7 +3,7 @@ import pkg from 'jsonwebtoken';
 import auth from '../../../config/auth.js';
 import { AppError } from '../../../shared/errors/AppError.js';
 import { DateProvider } from '../../../shared/provider/DateProvider.js';
-import { usersRefreshTokensReporitory } from '../repositories/UsersRefreshTokensReporitory.js';
+import { usersRefreshTokensRepository } from '../repositories/UsersRefreshTokensRepository.js';
 const { sign } = pkg;
 import { usersRepository } from '../repositories/UsersRepository.js';
 
@@ -40,12 +40,13 @@ class AuthUser {
         const refreshTokenExpiresDate = DateProvider.addDays(
             expiresResfreshTokenDays
         );
+        
         const refresh_token = sign({ email: user.email }, secretRefreshToken, {
             subject: user.id,
             expiresIn: expiresInRefreshToken,
         });
 
-        await usersRefreshTokensReporitory.create({
+        await usersRefreshTokensRepository.create({
             refresh_token,
             user_id: user.id,
             expires_date: refreshTokenExpiresDate,

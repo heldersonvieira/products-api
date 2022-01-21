@@ -10,6 +10,11 @@ class UsersRepository {
 
     async create({ name, cpf, password, email, is_admin }) {
         try {
+            const userAlreadyExists = this.findByCpf({ cpf });
+            if (userAlreadyExists) {
+                throw new AppError('User already exists', 204);
+            }
+
             const passwordHash = await encryptPassword(password);
             const user = new User({
                 name,
@@ -27,14 +32,7 @@ class UsersRepository {
     }
 
     async update({ id, name, cpf, email, is_admin }) {
-        const user = this.users.find((user) => user.id === id);
-        Object.assign(user, {
-            name,
-            cpf,
-            email,
-            is_admin,
-        });
-        return user;
+        console.log('metodo ainda não implementado');
     }
 
     async findById({ user_id: id }) {
